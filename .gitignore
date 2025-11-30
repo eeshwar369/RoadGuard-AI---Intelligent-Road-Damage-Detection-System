@@ -40,3 +40,6 @@ evaluation/results/
 # Temporary
 *.bak
 *.backup
+
+# Demo images (optional - remove this line if you want to include demo images)
+# images/

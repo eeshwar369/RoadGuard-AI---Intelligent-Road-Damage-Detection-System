@@ -1,14 +1,35 @@
-# 🛣️ Road Damage Detection - Edge AI System
+# 🛣️ RoadGuard AI - Intelligent Road Damage Detection System
+
+[![Edge AI](https://img.shields.io/badge/Edge-AI-blue)](https://edgeimpulse.com)
+[![Node.js](https://img.shields.io/badge/Node.js-14+-green)](https://nodejs.org)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Accuracy](https://img.shields.io/badge/Accuracy-85%25+-success)](https://github.com)
 
 An intelligent Edge AI system for real-time detection and classification of road surface damage using computer vision, optimized for edge deployment.
 
+![RoadGuard AI Demo](images/Sample.png)
+
 ## 🎯 Overview
 
-This project addresses the $3B+ annual road damage problem by providing an automated, AI-powered detection system that can identify and classify four types of road damage:
-- **D00**: Longitudinal cracks
-- **D10**: Transverse cracks  
-- **D20**: Alligator cracks
-- **D40**: Potholes
+This project addresses the **$3B+ annual road damage problem** by providing an automated, AI-powered detection system that can identify and classify four types of road damage:
+
+- **Longitudinal Cracks** - Linear cracks parallel to road direction
+- **Transverse Cracks** - Linear cracks across the road
+- **Alligator Cracks** - Interconnected cracks (structural damage)
+- **Potholes** - Bowl-shaped holes in road surface
+
+### 📸 Screenshots
+
+<table>
+  <tr>
+    <td><img src="images/Sample1.png" alt="Detection Example 1" width="400"/></td>
+    <td><img src="images/Sample2.png" alt="Detection Example 2" width="400"/></td>
+  </tr>
+  <tr>
+    <td><img src="images/Sample3.png" alt="AI Features" width="400"/></td>
+    <td><img src="images/sample4.png" alt="Analytics" width="400"/></td>
+  </tr>
+</table>
 
 ## ✨ Key Features
 
@@ -38,39 +59,64 @@ This project addresses the $3B+ annual road damage problem by providing an autom
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 14+
-- Edge Impulse account
-- Trained model (see Training Guide)
+- Node.js 14 or higher
+- Edge Impulse account (free at [studio.edgeimpulse.com](https://studio.edgeimpulse.com))
+- Web browser (Chrome recommended)
 
 ### Installation
 
-1. **Clone repository**
+1. **Clone the repository**
 ```bash
-git clone <your-repo-url>
-cd road-damage-detection
+git clone https://github.com/your-username/roadguard-ai.git
+cd roadguard-ai
 ```
 
-2. **Install server dependencies**
+2. **Install dependencies**
 ```bash
 cd server
 npm install
 ```
 
-3. **Configure Edge Impulse**
-Create `server/.env`:
-```
-EDGE_IMPULSE_API_KEY=your_api_key
-EDGE_IMPULSE_PROJECT_ID=your_project_id
+3. **Configure Edge Impulse API**
+
+Create `server/.env` file:
+```env
+EDGE_IMPULSE_API_KEY=your_api_key_here
+EDGE_IMPULSE_PROJECT_ID=your_project_id_here
 PORT=3000
 ```
 
-4. **Start server**
+Get your credentials from Edge Impulse Studio → Dashboard → Keys
+
+4. **Start the server**
 ```bash
 npm start
 ```
 
-5. **Open UI**
-Open `ui/index.html` in your browser
+You should see:
+```
+✓ Edge Impulse API configured
+🚀 Road Damage Detection Server
+📡 Running on http://localhost:3000
+```
+
+5. **Open the application**
+
+Simply open `ui/index.html` in your web browser, or use a local server:
+```bash
+cd ui
+npx live-server
+```
+
+6. **Test it!**
+
+Upload a road damage image and see the AI analysis with:
+- Damage classification
+- Confidence scores
+- Cost estimation
+- Severity assessment
+- Heatmap visualization
+- And more!
 
 ## 📊 Model Training
 
