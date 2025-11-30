@@ -67,7 +67,7 @@ This project addresses the **$3B+ annual road damage problem** by providing an a
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/roadguard-ai.git
+git clone https://github.com/eeshwar369/RoadGuard-AI---Intelligent-Road-Damage-Detection-System
 cd roadguard-ai
 ```
 
