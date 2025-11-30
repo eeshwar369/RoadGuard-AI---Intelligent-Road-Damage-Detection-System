@@ -1,0 +1,12 @@
+{
+  "name": "road-damage-evaluation",
+  "version": "1.0.0",
+  "description": "Model evaluation scripts",
+  "main": "evaluate-model.js",
+  "scripts": {
+    "evaluate": "node evaluate-model.js"
+  },
+  "dependencies": {
+    "edge-impulse-linux": "^1.5.0"
+  }
+}

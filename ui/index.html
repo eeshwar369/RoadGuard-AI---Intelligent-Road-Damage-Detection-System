@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Damage Detection - Edge AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛣️ Road Surface Damage Detection</h1>
+            <p class="subtitle">Edge AI-Powered Real-Time Analysis</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Upload Section -->
+            <div class="card">
+                <h2>Upload Image</h2>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="imageInput" accept="image/*" hidden>
+                    <div class="upload-placeholder">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p>Click to upload or drag & drop</p>
+                        <span>Supports: JPG, PNG (max 10MB)</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="uploadBtn">Choose Image</button>
+            </div>
+
+            <!-- Camera Section -->
+            <div class="card">
+                <h2>Live Camera</h2>
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" hidden></canvas>
+                <div class="camera-controls">
+                    <button class="btn btn-secondary" id="startCamera">Start Camera</button>
+                    <button class="btn btn-primary" id="captureBtn" disabled>Capture & Analyze</button>
+                </div>
+            </div>
+
+            <!-- Preview & Results -->
+            <div class="card results-card">
+                <h2>Analysis Results</h2>
+                <div id="previewSection" class="preview-section" hidden>
+                    <img id="preview" alt="Preview">
+                </div>
+                
+                <div id="resultsSection" hidden>
+                    <div class="result-header">
+                        <span class="damage-type" id="damageType">-</span>
+                        <span class="confidence" id="confidence">-</span>
+                    </div>
+                    
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="label">Inference Time</span>
+                            <span class="value" id="inferenceTime">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Timestamp</span>
+                            <span class="value" id="timestamp">-</span>
+                        </div>
+                    </div>
+
+                    <div class="all-predictions">
+                        <h3>All Detections</h3>
+                        <div id="allScores"></div>
+                    </div>
+
+                    <div class="severity-indicator">
+                        <h3>Severity Assessment</h3>
+                        <div class="severity-bar">
+                            <div class="severity-fill" id="severityFill"></div>
+                        </div>
+                        <p id="severityText">-</p>
+                    </div>
+
+                    <!-- AI-Powered Cost Estimation -->
+                    <div class="ai-feature" id="costEstimation"></div>
+
+                    <!-- Uncertainty Quantification -->
+                    <div class="ai-feature" id="uncertaintyMetrics"></div>
+
+                    <!-- Damage Heatmap Visualization -->
+                    <div class="ai-feature">
+                        <h4>🗺️ Damage Localization Heatmap</h4>
+                        <div id="damageHeatmap" class="heatmap-container"></div>
+                    </div>
+
+                    <!-- Session Statistics -->
+                    <div class="ai-feature" id="sessionStats"></div>
+                </div>
+
+                <div id="loadingSection" hidden>
+                    <div class="loader"></div>
+                    <p>Analyzing image with AI...</p>
+                </div>
+
+                <div id="errorSection" hidden>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Batch Processing Section -->
+        <div class="card batch-section">
+            <h2>📦 Batch Processing</h2>
+            <p>Upload multiple images for bulk analysis</p>
+            <input type="file" id="batchInput" accept="image/*" multiple hidden>
+            <button class="btn btn-primary" onclick="document.getElementById('batchInput').click()">
+                Select Multiple Images
+            </button>
+            <div id="batchProgress" class="batch-progress"></div>
+            <div id="batchResults" class="batch-results"></div>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-dashboard">
+            <div class="dashboard-header">
+                <h2>🧠 AI Model Information</h2>
+                <div id="serverStatus" class="server-status"></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Model Type</span>
+                    <span class="stat-value">MobileNetV2 SSD</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Input Size</span>
+                    <span class="stat-value">320x320</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Classes</span>
+                    <span class="stat-value">4</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Framework</span>
+                    <span class="stat-value">Edge Impulse</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Optimization</span>
+                    <span class="stat-value">INT8 Quantized</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Target Latency</span>
+                    <span class="stat-value">&lt;100ms</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Edge Ready</span>
+                    <span class="stat-value">✓ Yes</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">AI Features</span>
+                    <span class="stat-value">7+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Features Showcase -->
+        <div class="features-showcase">
+            <h2>🚀 Advanced AI Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Uncertainty Quantification</h3>
+                    <p>Entropy-based confidence calibration with prediction margin analysis</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Smart Cost Estimation</h3>
+                    <p>AI-driven repair cost prediction using damage severity and area estimation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>Damage Heatmaps</h3>
+                    <p>Visual localization of damage areas with confidence-based overlays</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Session statistics with trend analysis and export capabilities</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Batch Processing</h3>
+                    <p>Process multiple images simultaneously with progress tracking</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Edge Optimized</h3>
+                    <p>INT8 quantization for ultra-fast inference on edge devices</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with Edge Impulse Studio | Optimized for Edge Deployment</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

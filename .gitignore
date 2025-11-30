@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables (keep .env.example for reference)
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploads
+uploads/
+*.tmp
+
+# Model files
+model/*.eim
+model/*.tflite
+
+# Data
+data/raw/
+data/processed/
+*.zip
+*.tar.gz
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Evaluation
+evaluation/results/
+
+# Temporary
+*.bak
+*.backup
