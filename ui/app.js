@@ -160,38 +160,49 @@ async function handleImageUpload(file) {
         });
 
         if (!response.ok) {
-            throw new Error('Prediction failed');
+            const errorText = await response.text();
+            console.error('Server error:', response.status, errorText);
+            throw new Error(`Prediction failed: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log('Received data:', data);
         displayResults(data);
     } catch (err) {
-        showError('Failed to analyze image. Make sure the server is running.');
+        console.error('Upload error:', err);
+        showError('Failed to analyze image. Make sure the server is running. Error: ' + err.message);
     } finally {
         loadingSection.hidden = true;
     }
 }
 
 function displayResults(data) {
-    const { prediction, inferenceTime, timestamp, aiInsights } = data;
-    
-    // Store in history
-    predictionHistory.push({
-        ...prediction,
-        timestamp,
-        inferenceTime
-    });
-    
-    // Update main result
-    const damageLabel = DAMAGE_LABELS[prediction.class] || prediction.class;
-    document.getElementById('damageType').textContent = damageLabel;
-    document.getElementById('confidence').textContent = 
-        `${(prediction.confidence * 100).toFixed(1)}%`;
-    
-    // Update metrics
-    document.getElementById('inferenceTime').textContent = `${inferenceTime}ms`;
-    document.getElementById('timestamp').textContent = 
-        new Date(timestamp).toLocaleTimeString();
+    try {
+        console.log('Displaying results for:', data);
+        
+        const { prediction, inferenceTime, timestamp, aiInsights } = data;
+        
+        if (!prediction || !prediction.class) {
+            throw new Error('Invalid prediction data');
+        }
+        
+        // Store in history
+        predictionHistory.push({
+            ...prediction,
+            timestamp,
+            inferenceTime
+        });
+        
+        // Update main result
+        const damageLabel = DAMAGE_LABELS[prediction.class] || prediction.class;
+        document.getElementById('damageType').textContent = damageLabel;
+        document.getElementById('confidence').textContent = 
+            `${(prediction.confidence * 100).toFixed(1)}%`;
+        
+        // Update metrics
+        document.getElementById('inferenceTime').textContent = `${inferenceTime}ms`;
+        document.getElementById('timestamp').textContent = 
+            new Date(timestamp).toLocaleTimeString();
     
     // Display all scores
     const allScoresDiv = document.getElementById('allScores');
@@ -233,6 +244,12 @@ function displayResults(data) {
     
     // Show results
     resultsSection.hidden = false;
+    console.log('Results displayed successfully');
+    
+    } catch (error) {
+        console.error('Error displaying results:', error);
+        showError('Error displaying results: ' + error.message);
+    }
 }
 
 function updateSeverity(damageClass, confidence, aiInsights) {
